@@ -15,6 +15,7 @@
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"@types/dat.gui": "^0.7.13",
 		"@types/eslint": "^9.6.0",
 		"@types/three": "^0.169.0",
 		"eslint": "^9.7.0",
@@ -31,6 +32,7 @@
 	},
 	"packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee",
 	"dependencies": {
+		"dat.gui": "^0.7.9",
 		"three": "^0.170.0",
 		"three-stdlib": "^2.34.0"
 	}

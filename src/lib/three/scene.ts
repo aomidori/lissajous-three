@@ -6,6 +6,7 @@ import { theme } from '$lib/data/theme/theme';
 import { addBox, addGrid } from './objects';
 import { addLightings } from './lightings';
 import { CAMERA_POSITION, initCamera } from './camera';
+import { addGuiControls, gui, removeGuiControls } from './settings';
 
 export class SceneManager {
   private scene: THREE.Scene = new THREE.Scene();
@@ -24,6 +25,10 @@ export class SceneManager {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     this.initScene();
+
+    if (!gui) {
+      addGuiControls();
+    }
   }
 
   private initScene() {
@@ -47,5 +52,6 @@ export class SceneManager {
 
   public dispose() {
     this.renderer?.dispose();
+    removeGuiControls();
   }
 }
