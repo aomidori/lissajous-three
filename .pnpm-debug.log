@@ -1,0 +1,77 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {
+      "name": "lissajous-three",
+      "version": "0.0.1",
+      "type": "module",
+      "scripts": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "preview": "vite preview",
+        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+        "format": "prettier --write .",
+        "lint": "prettier --check . && eslint ."
+      },
+      "devDependencies": {
+        "@sveltejs/adapter-auto": "^3.0.0",
+        "@sveltejs/kit": "^2.0.0",
+        "@sveltejs/vite-plugin-svelte": "^4.0.0",
+        "@types/eslint": "^9.6.0",
+        "eslint": "^9.7.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-svelte": "^2.36.0",
+        "globals": "^15.0.0",
+        "prettier": "^3.3.2",
+        "prettier-plugin-svelte": "^3.2.6",
+        "svelte": "^5.0.0",
+        "svelte-check": "^4.0.0",
+        "typescript": "^5.0.0",
+        "typescript-eslint": "^8.0.0",
+        "vite": "^5.0.3"
+      }
+    },
+    "prefix": "/Users/hanyuezhou/projects/lissajous-three"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/Users/hanyuezhou/.pnpm-store/v3",
+    "virtualStoreDir": "/Users/hanyuezhou/projects/lissajous-three/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/Users/hanyuezhou/projects/lissajous-three",
+    "stage": "resolution_started"
+  },
+  "4 debug pnpm:_dependency_resolved": {
+    "resolution": "registry.npmjs.org/globals/15.11.0",
+    "wanted": {
+      "dependentId": ".",
+      "name": "globals",
+      "rawSpec": "^15.0.0"
+    }
+  },
+  "5 warn pnpm:install-check": {
+    "message": "Unsupported engine for registry.npmjs.org/globals/15.11.0: wanted: {\"node\":\">=18\"} (current: {\"node\":\"v16.16.0\",\"pnpm\":\"6.11.0\"})",
+    "prefix": "/Users/hanyuezhou/projects/lissajous-three"
+  },
+  "6 error pnpm": {
+    "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+    "packageId": "registry.npmjs.org/globals/15.11.0",
+    "wanted": {
+      "node": ">=18"
+    },
+    "current": {
+      "node": "v16.16.0",
+      "pnpm": "6.11.0"
+    },
+    "err": {
+      "name": "Error",
+      "message": "Unsupported engine for registry.npmjs.org/globals/15.11.0: wanted: {\"node\":\">=18\"} (current: {\"node\":\"v16.16.0\",\"pnpm\":\"6.11.0\"})",
+      "code": "ERR_PNPM_UNSUPPORTED_ENGINE",
+      "stack": "Error: Unsupported engine for registry.npmjs.org/globals/15.11.0: wanted: {\"node\":\">=18\"} (current: {\"node\":\"v16.16.0\",\"pnpm\":\"6.11.0\"})\n    at Object.checkEngine [as default] (/Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:35213:16)\n    at checkPackage (/Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:35357:99)\n    at Object.packageIsInstallable [as default] (/Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:35327:20)\n    at resolveDependency (/Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:110715:81)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at async resolveDependenciesOfDependency (/Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:110452:39)\n    at async Promise.all (index 7)\n    at async Object.resolveDependencies [as default] (/Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:110422:29)\n    at async /Users/hanyuezhou/.node/corepack/pnpm/6.11.0/dist/pnpm.cjs:110937:47\n    at async Promise.all (index 0)"
+    }
+  }
+}
