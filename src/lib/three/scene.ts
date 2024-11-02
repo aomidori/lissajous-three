@@ -39,6 +39,12 @@ export class SceneManager {
     requestAnimationFrame(() => this.render());
   }
 
+  public resize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
   public dispose() {
     this.renderer?.dispose();
   }

@@ -5,13 +5,19 @@
   let container: HTMLDivElement;
   let scene: SceneManager;
 
+  const onResize = () => {
+    scene?.resize();
+  };
+
   onMount(() => {
     scene = new SceneManager(container);
     scene.render();
+    window.addEventListener('resize', onResize);
   });
 
   onDestroy(() => {
     scene?.dispose();
+    window.removeEventListener('resize', onResize);
   });
 </script>
 
