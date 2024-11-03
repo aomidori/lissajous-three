@@ -22,16 +22,16 @@ type LissajousParams = {
   d: number;
 };
 
-const POINTS = 5000;
+const POINTS = 6000;
 
 export class Lissajous3D {
   private vertices = new Float32Array(POINTS * 3);
   private geometry = new THREE.BufferGeometry();
-  private material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-  private line = new THREE.Line(this.geometry, this.material);
+  private material = new THREE.PointsMaterial({ color: 0x00ff00, size: 0.01 });
+  private points = new THREE.Points(this.geometry, this.material);
 
   constructor(params: LissajousParams) {
-    this.line.name = 'Lissajous3D';
+    this.points.name = 'Lissajous3D';
     this.plot(params);
     this.geometry.setAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
   }
@@ -58,6 +58,6 @@ export class Lissajous3D {
   }
 
   public getMesh() {
-    return this.line;
+    return this.points;
   }
 }
