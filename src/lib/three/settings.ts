@@ -3,7 +3,7 @@ import type { GUI } from 'dat.gui';
 
 let gui: GUI | null = null;
 
-type Settings = {
+export type Settings = {
   xFrequency: number;
   yFrequency: number;
   zFrequency: number;

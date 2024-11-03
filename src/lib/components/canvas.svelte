@@ -2,11 +2,11 @@
   import { onMount, onDestroy } from 'svelte';
   import { SceneManager } from '../three/scene';
   import { browser } from '$app/environment';
-	import { settingsStore } from '$lib/three/settings';
+	import { settingsStore, type Settings } from '$lib/three/settings';
 
   let container: HTMLDivElement;
   let scene: SceneManager;
-  let settings = $state();
+  let settings = $state<Settings>();
 
   const onResize = () => {
     scene?.resize();
