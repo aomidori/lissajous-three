@@ -1,6 +1,6 @@
 <script>
   import Canvas from '$lib/components/canvas.svelte';
-	import { addGuiControls, removeGuiControls } from '$lib/three/settings';
+	import { addGuiControls, removeGuiControls } from '$lib/data/settings';
   import { onMount, onDestroy } from 'svelte';
 
   onMount(() => {

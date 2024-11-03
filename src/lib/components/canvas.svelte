@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { SceneManager } from '../three/scene';
   import { browser } from '$app/environment';
-	import { settingsStore, type Settings } from '$lib/three/settings';
+	import { settingsStore, type Settings } from '$lib/data/settings';
 
   let container: HTMLDivElement;
   let scene: SceneManager;

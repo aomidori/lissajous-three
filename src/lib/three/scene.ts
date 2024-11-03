@@ -2,11 +2,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { theme } from '$lib/data/theme/theme';
+import { settings } from '$lib/data/settings';
 
 import { addGrid } from './objects';
 import { addLightings } from './lightings';
 import { CAMERA_POSITION, initCamera } from './camera';
-import { settings } from './settings';
 import { Lissajous3D } from './plot/lissajous';
 
 export class SceneManager {
