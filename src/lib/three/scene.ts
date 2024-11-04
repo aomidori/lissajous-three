@@ -15,14 +15,7 @@ export class SceneManager {
   private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
   private controls: OrbitControls;
 
-  private lissajous2D = new Lissajous3D({
-    a: 1,
-    b: 0,
-    c: 1,
-    n: 1,
-    m: 1,
-    d: 0,
-  });
+  private lissajous3D!: Lissajous3D;
 
   constructor(canvasContainer: HTMLDivElement) {
     if (!canvasContainer) {
@@ -41,20 +34,23 @@ export class SceneManager {
     initCamera(this.camera, CAMERA_POSITION.initial);
     addLightings(this.scene);
     addGrid(this.scene, 10, 10, theme.three.gridColor);
-    // addBox(this.scene, 2, theme.three.lineColor);
-    this.scene.add(this.lissajous2D.getMesh());
+    this.lissajous3D = new Lissajous3D();
+    this.scene.add(this.lissajous3D.getMesh());
   }
 
   public render() {
     this.renderer.render(this.scene, this.camera);
     this.controls.update();
-    this.lissajous2D.setValues({
-      a: 1,
-      b: 0,
-      c: settings.xFrequency,
-      n: settings.yFrequency,
-      m: settings.zFrequency,
-      d: 0,
+    this.lissajous3D.setValues({
+      xA: 1,
+      yA: 1,
+      zA: 1,
+      a: settings.xFrequency,
+      b: settings.yFrequency,
+      c: settings.zFrequency,
+      xPhi: 0,
+      yPhi: 0,
+      zPhi: 0,
     });
     requestAnimationFrame(() => this.render());
   }
