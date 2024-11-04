@@ -31,10 +31,39 @@ const DEFAULT_PARAMS: LissajousParams = {
 const POINTS = 6000;
 const SCALE = 2.0;
 
+const shaderMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    u_color: { value: new THREE.Color(0x00ff00) },
+    u_point_size: { value: 3.0 },
+    u_glow_strength: { value: 2.5 },
+  },
+  transparent: true,
+  depthWrite: false,
+  vertexShader: /* glsl */`
+    uniform float u_point_size;
+    uniform vec3 u_color;
+    varying vec3 vColor;
+    void main() {
+      gl_PointSize = u_point_size;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      vColor = u_color;
+    }
+  `,
+  fragmentShader: /* glsl */`
+    varying vec3 vColor;
+    uniform float u_glow_strength;
+    void main() {
+      float dist = length(gl_PointCoord - vec2(0.5));
+      float alpha = 1.0 - smoothstep(0.3, 0.5, dist) * u_glow_strength;
+      gl_FragColor = vec4(vColor, alpha);
+    }
+  `,
+});
+
 export class Lissajous3D {
   private vertices = new Float32Array(POINTS * 3);
   private geometry = new THREE.BufferGeometry();
-  private material = new THREE.PointsMaterial({ color: 0x00ff00, size: 0.01 });
+  private material = shaderMaterial;
   private points = new THREE.Points(this.geometry, this.material);
 
   constructor(params: LissajousParams = DEFAULT_PARAMS) {
@@ -56,7 +85,8 @@ export class Lissajous3D {
   }
 
   public setMaterialColor(color: number) {
-    this.material.color.set(color);
+    this.material.uniforms.u_color.value.set(color);
+    this.material.needsUpdate = true;
   }
 
   public setValues(params: LissajousParams) {

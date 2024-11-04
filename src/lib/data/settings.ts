@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import type { GUI } from 'dat.gui';
+import { theme } from './theme/theme';
 
 let gui: GUI | null = null;
 
@@ -8,6 +9,7 @@ export type Settings = {
   yFrequency: number;
   zFrequency: number;
   dimension: '2D' | '3D';
+  color: number;
 }
 
 const settings: Settings = {
@@ -15,6 +17,7 @@ const settings: Settings = {
   yFrequency: 0,
   zFrequency: 0,
   dimension: '3D',
+  color: theme.three.lineColor,
 };
 
 const settingsStore = writable<Settings>({...settings});
@@ -35,10 +38,12 @@ const addGuiControls = () => {
     gui.add(settings, 'zFrequency', 0, 1).name('Z Frequency').step(0.1).onChange((value) => {
       settingsStore.update((s) => { s.zFrequency = value; return s; });
     });
-
     gui.addFolder('mode');
     gui.add(settings, 'dimension', ['2D', '3D']).name('Dimension').onChange((value) => {
       settingsStore.update((s) => { s.dimension = value; return s; });
+    });
+    gui.addColor(settings, 'color').name('Line Color').onChange((value) => {
+      settingsStore.update((s) => { s.color = value; return s; });
     });
     gui.show();
   });

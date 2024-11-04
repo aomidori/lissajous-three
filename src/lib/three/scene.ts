@@ -52,6 +52,7 @@ export class SceneManager {
       yPhi: 0,
       zPhi: 0,
     });
+    this.lissajous3D.setMaterialColor(settings.color);
     requestAnimationFrame(() => this.render());
   }
 
