@@ -3,14 +3,15 @@
   import { SceneManager } from '../three/scene';
   import { browser } from '$app/environment';
 	import { settingsStore, type Settings } from '$lib/data/settings';
+	import { debounce } from '$lib/utils/common';
 
   let container: HTMLDivElement;
   let scene: SceneManager;
   let settings = $state<Settings>();
 
-  const onResize = () => {
+  const onResize = debounce(() => {
     scene?.resize();
-  };
+  }, 100);
 
   const settingsUnsubscribe = settingsStore.subscribe((value) => {
     settings = value;
