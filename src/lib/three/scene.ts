@@ -62,6 +62,9 @@ export class SceneManager {
   public resize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
+    if (window.devicePixelRatio !== this.renderer.getPixelRatio()) {
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+    }
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
