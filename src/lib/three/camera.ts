@@ -4,7 +4,7 @@ export const CAMERA_POSITION = {
   top: { x: 0, y: 0, z: 10 },
   front: { x: 0, y: 10, z: 0 },
   left: { x: 10, y: 0, z: 0 },
-  initial: { x: 10, y: 10, z: 10 }
+  initial: { x: 5, y: 5, z: 10 }
 }
 
 export const initCamera = (camera: THREE.PerspectiveCamera, position: { x: number, y: number, z: number }) => {

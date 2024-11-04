@@ -23,6 +23,7 @@ type LissajousParams = {
 };
 
 const POINTS = 6000;
+const SCALE = 2.0;
 
 export class Lissajous3D {
   private vertices = new Float32Array(POINTS * 3);
@@ -42,9 +43,9 @@ export class Lissajous3D {
       const x = Math.sin(a * i + b) * Math.cos(c * i + d);
       const y = Math.sin(n * i);
       const z = Math.cos(m * i);
-      this.vertices[i * 3] = x;
-      this.vertices[i * 3 + 1] = y;
-      this.vertices[i * 3 + 2] = z;
+      this.vertices[i * 3] = x * SCALE;
+      this.vertices[i * 3 + 1] = y * SCALE;
+      this.vertices[i * 3 + 2] = z * SCALE;
     }
   }
 
