@@ -13,9 +13,9 @@ export type Settings = {
 }
 
 const settings: Settings = {
-  xFrequency: 0,
-  yFrequency: 0,
-  zFrequency: 0,
+  xFrequency: 1,
+  yFrequency: 0.25,
+  zFrequency: 0.5,
   dimension: '3D',
   color: theme.three.lineColor,
 };

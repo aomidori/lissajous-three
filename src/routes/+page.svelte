@@ -18,6 +18,7 @@
 
 <style>
   .main {
+    background: black;
     font-family: 'Inter', sans-serif;
     font-weight: 200;
   }

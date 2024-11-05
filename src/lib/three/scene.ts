@@ -22,6 +22,7 @@ export class SceneManager {
       throw new Error('Canvas element not found');
     }
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setClearColor(theme.three.backgroundColor);
     canvasContainer.appendChild(this.renderer.domElement);
 
