@@ -67,6 +67,16 @@ export class SceneManager {
   }
 
   public dispose() {
+    const renderTarget = this.renderer.getRenderTarget();
+    if (renderTarget) {
+      renderTarget.dispose();
+    }
     this.renderer?.dispose();
+    this.scene.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        object.geometry.dispose();
+        object.material.dispose();
+      }
+    });
   }
 }
