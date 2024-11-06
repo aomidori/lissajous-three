@@ -102,7 +102,7 @@ export class Lissajous3D {
   }
 
   private getNoises(): Float32Array {
-    const noiseScale = 0.05;
+    const noiseScale = SCALE * 0.025;
     const noises = new Float32Array(POINTS * 3 * NOISES_PER_POINT);
     for (let i = 0; i < POINTS; i++) {
      for (let j = 0; j < NOISES_PER_POINT; j++) {

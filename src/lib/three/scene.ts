@@ -34,7 +34,7 @@ export class SceneManager {
   private initScene() {
     initCamera(this.camera, CAMERA_POSITION.initial);
     addLightings(this.scene);
-    addGrid(this.scene, 10, 10, theme.three.gridColor);
+    addGrid(this.scene, 8, 10, theme.three.gridColor);
     this.lissajous3D = new Lissajous3D();
     this.scene.add(this.lissajous3D.getMesh());
   }
