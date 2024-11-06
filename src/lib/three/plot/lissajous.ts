@@ -29,7 +29,7 @@ const DEFAULT_PARAMS: LissajousParams = {
 };
 
 const POINTS = 6000;
-const NOISES_PER_POINT = 5;
+const NOISES_PER_POINT = 4;
 const SCALE = 2.0;
 
 const shaderMaterial = new THREE.ShaderMaterial({
