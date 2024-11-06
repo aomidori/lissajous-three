@@ -38,10 +38,6 @@ const addGuiControls = () => {
     gui.add(settings, 'zFrequency', 0, 1).name('Z Frequency').step(0.1).onChange((value) => {
       settingsStore.update((s) => { s.zFrequency = value; return s; });
     });
-    gui.addFolder('mode');
-    gui.add(settings, 'dimension', ['2D', '3D']).name('Dimension').onChange((value) => {
-      settingsStore.update((s) => { s.dimension = value; return s; });
-    });
     gui.addColor(settings, 'color').name('Line Color').onChange((value) => {
       settingsStore.update((s) => { s.color = value; return s; });
     });

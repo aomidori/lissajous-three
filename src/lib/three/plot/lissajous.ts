@@ -29,18 +29,19 @@ const DEFAULT_PARAMS: LissajousParams = {
 };
 
 const POINTS = 6000;
+const NOISES_PER_POINT = 5;
 const SCALE = 2.0;
 
 const shaderMaterial = new THREE.ShaderMaterial({
   uniforms: {
     u_color: { value: new THREE.Vector3(0.0, 1.0, 0.0) },
-    u_point_size: { value: 16.0 },
+    u_point_size: { value: 2.0 },
     u_glow_strength: { value: 2.5 },
+    u_time: { value: 0.0 },
   },
   transparent: true,
   depthWrite: false,
   blending: THREE.AdditiveBlending,
-  blendAlpha: 0.5,
   vertexShader: /* glsl */`
     uniform float u_point_size;
     void main() {
@@ -51,22 +52,31 @@ const shaderMaterial = new THREE.ShaderMaterial({
   fragmentShader: /* glsl */`
     uniform vec3 u_color;
     uniform float u_glow_strength;
+    uniform float u_time;
     void main() {
       float dist = length(gl_PointCoord - vec2(0.5));
-      float alpha = 1.0 - smoothstep(0.3, 0.8, dist) * u_glow_strength;
-      gl_FragColor = vec4(u_color, alpha);
+      vec3 black = vec3(0.0);
+      float alpha = max(1.0 - smoothstep(0.3, 0.8, dist) * u_glow_strength, 0.0);
+      float mix_strength = max(0.1 + 0.5 * sin(u_time * 0.004), alpha);
+      gl_FragColor = vec4(mix(u_color, black, mix_strength), alpha);
     }
   `,
 });
 
 export class Lissajous3D {
-  private vertices = new Float32Array(POINTS * 3);
+  private vertices = new Float32Array(POINTS * 3 + POINTS * 3 * NOISES_PER_POINT);
   private geometry = new THREE.BufferGeometry();
   private material = shaderMaterial;
+  private group = new THREE.Group();
   private points = new THREE.Points(this.geometry, this.material);
+  private noisesVertices = new Float32Array(POINTS * 3 * NOISES_PER_POINT);
+
+  private start = 0;
 
   constructor(params: LissajousParams = DEFAULT_PARAMS) {
-    this.points.name = 'Lissajous3D';
+    this.group.name = 'Lissajous3D';
+    this.group.add(this.points);
+
     this.plot(params);
     this.geometry.setAttribute('position', new THREE.BufferAttribute(this.vertices, 3));
   }
@@ -81,6 +91,27 @@ export class Lissajous3D {
       this.vertices[i * 3 + 1] = y * SCALE;
       this.vertices[i * 3 + 2] = z * SCALE;
     }
+    if (!this.start) {
+      this.start = performance.now();
+    }
+    const time = performance.now() - this.start;
+    this.material.uniforms.u_time.value = time;
+
+    this.noisesVertices = Math.round(time / 50) % 2 ? this.getNoises() : this.noisesVertices;
+    this.vertices.set(this.noisesVertices, POINTS * 3);
+  }
+
+  private getNoises(): Float32Array {
+    const noiseScale = 0.05;
+    const noises = new Float32Array(POINTS * 3 * NOISES_PER_POINT);
+    for (let i = 0; i < POINTS; i++) {
+     for (let j = 0; j < NOISES_PER_POINT; j++) {
+        noises[i * 3 * NOISES_PER_POINT + j * 3] = Math.random() * noiseScale + this.vertices[i * 3];
+        noises[i * 3 * NOISES_PER_POINT + j * 3 + 1] = Math.random() * noiseScale + this.vertices[i * 3 + 1];
+        noises[i * 3 * NOISES_PER_POINT + j * 3 + 2] = Math.random() * noiseScale + this.vertices[i * 3 + 2];
+     }
+    }
+    return noises;
   }
 
   public setMaterialColor(color: number) {
