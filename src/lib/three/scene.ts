@@ -6,7 +6,7 @@ import { settings } from '$lib/data/settings';
 
 import { addGrid } from './objects';
 import { addLightings } from './lightings';
-import { CAMERA_POSITION, initCamera } from './camera';
+import { CAMERA_POSITION, initCamera, updateCamera } from './camera';
 import { Lissajous3D } from './plot/lissajous';
 
 export class SceneManager {
@@ -32,7 +32,7 @@ export class SceneManager {
   }
 
   private initScene() {
-    initCamera(this.camera, CAMERA_POSITION.initial);
+    initCamera(this.camera);
     addLightings(this.scene);
     addGrid(this.scene, 8, 10, theme.three.gridColor);
     this.lissajous3D = new Lissajous3D();
@@ -42,6 +42,7 @@ export class SceneManager {
   public render() {
     this.renderer.render(this.scene, this.camera);
     this.controls.update();
+    updateCamera();
     this.lissajous3D.setValues({
       xA: 1,
       yA: 1,
