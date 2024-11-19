@@ -1,5 +1,5 @@
 # Lissajous curve 3D (WIP)
-experiment with lissajous curve in 3d
+experiment with lissajous curve in 3d, built with svelte
 
 <img width="741" alt="Screenshot 2024-11-19 at 23 04 54" src="https://github.com/user-attachments/assets/fd63fcad-c46e-47da-ab8a-36c9e18e769a">
 
