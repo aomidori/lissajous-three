@@ -28,7 +28,5 @@ export const initCamera = (camera: THREE.PerspectiveCamera) => {
 }
 
 export const updateCamera = () => {
-  if (updateCamera) {
-    cameraTween.update();
-  }
+  cameraTween?.update();
 }
