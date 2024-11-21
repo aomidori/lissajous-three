@@ -28,7 +28,7 @@ const DEFAULT_PARAMS: LissajousParams = {
   zPhi: 0,
 };
 
-const POINTS = 6000;
+const POINTS = 18000;
 const NOISES_PER_POINT = 4;
 const SCALE = 2.0;
 

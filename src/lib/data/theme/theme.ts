@@ -13,7 +13,7 @@ type Theme = {
 export const theme: Theme = {
   three: {
     backgroundColor: 0x000000,
-    lineColor: 0x3fde7d,
+    lineColor: 0xa038,
     gridColor: 0x644040
   },
   colors: {
