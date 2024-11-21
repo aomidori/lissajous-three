@@ -43,8 +43,9 @@
   .bottom {
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 8px;
     right: 0;
+    font-size: 0.8rem;
     background: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 0.5rem;
