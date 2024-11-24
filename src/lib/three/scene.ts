@@ -119,8 +119,8 @@ export class SceneManager {
 
   public projectPositionToScreen = (position: THREE.Vector3): { x: number; y: number } => {
     const vector = position.clone().project(this.camera);
-    const canvasWidth = this.renderer.domElement.width;
-    const canvasHeight = this.renderer.domElement.height;
+    const canvasWidth = this.renderer.domElement.width / window.devicePixelRatio;
+    const canvasHeight = this.renderer.domElement.height / window.devicePixelRatio;
     vector.x = ((vector.x + 1) * canvasWidth) / 2;
     vector.y = ((-vector.y + 1) * canvasHeight) / 2;
     return vector;
