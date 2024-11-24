@@ -14,7 +14,7 @@
   const activeIndex = $derived(options.findIndex((option) => option.value === selected));
 </script>
 
-<div class="switch flex flex-row flex-nowrap" style="width: fit-content;">
+<div class="switch flex flex-row flex-nowrap">
   <span
     class="switch-option-slider"
     style="width: {buttonWidth}px; left: {buttonWidth * activeIndex}px;"
@@ -41,6 +41,7 @@
     border-radius: 36px;
     cursor: pointer;
     position: relative;
+    width: fit-content;
   }
   .switch-option {
     color: var(--highlight-color);
