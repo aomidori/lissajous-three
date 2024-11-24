@@ -91,6 +91,19 @@ const removeGuiControls = () => {
 	}
 };
 
+const setGuiControlsVisibility = (visible: boolean) => {
+	if (pane) {
+		pane.hidden = !visible;
+	}
+};
+
 const getSetting = (k: keyof Settings) => settings[k];
 
-export { settings, settingsStore, addGuiControls, removeGuiControls, getSetting };
+export {
+	settings,
+	settingsStore,
+	addGuiControls,
+	removeGuiControls,
+	getSetting,
+	setGuiControlsVisibility
+};

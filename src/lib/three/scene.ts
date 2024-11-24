@@ -2,11 +2,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 import { theme } from '$lib/data/theme/theme';
-import { settings } from '$lib/data/settings';
+import { setGuiControlsVisibility, settings } from '$lib/data/settings';
 
 import { addGrid } from './objects';
 import { addLightings } from './lightings';
-import { initCamera, updateCamera } from './camera';
+import { animateCameraToView, initCamera, updateCamera } from './camera';
 import { Lissajous3D, lissajousGroupItems } from './plot/lissajous';
 
 export class SceneManager {
@@ -86,6 +86,7 @@ export class SceneManager {
 				}
 				this.lissajousSingleRoot.visible = true;
 				this.lissajousGroupRoot.visible = false;
+				setGuiControlsVisibility(true);
 				initCamera(this.camera);
 				break;
 			case 'group':
@@ -105,7 +106,8 @@ export class SceneManager {
 				}
 				this.lissajousSingleRoot.visible = false;
 				this.lissajousGroupRoot.visible = true;
-				initCamera(this.camera);
+				setGuiControlsVisibility(false);
+				animateCameraToView(this.camera, 'top');
 				break;
 			default:
 				console.error('Unknown view');
