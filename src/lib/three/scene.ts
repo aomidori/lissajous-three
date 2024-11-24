@@ -52,7 +52,7 @@ export class SceneManager {
   private initScene() {
     initCamera(this.camera);
     addLightings(this.scene);
-    addGrid(this.scene, 8, 10, theme.three.gridColor);
+    addGrid(this.scene, 8, 12, theme.three.gridColor);
     this.scene.add(this.lissajousSingleRoot);
     this.scene.add(this.lissajousGroupRoot);
     this.setView('single');
