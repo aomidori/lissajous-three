@@ -35,6 +35,9 @@ export const animateCameraToView = (camera: THREE.PerspectiveCamera, view: Camer
 	cameraTween = new Tween(camera.position)
 		.to({ x: position.x, y: position.y, z: position.z }, 2000)
 		.easing(Easing.Quadratic.Out)
+		.onUpdate(() => {
+			camera.lookAt(0, 0, 0);
+		})
 		.start();
 	camera.position.x = position.x;
 	camera.position.y = position.y;
