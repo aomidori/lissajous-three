@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const debounce = (fn: any, delay: number, config: {
-  leading?: boolean;
-  trailing?: boolean;
-} = { leading: false, trailing: true }) => {
+export const debounce = (
+  fn: any,
+  delay: number,
+  config: {
+    leading?: boolean;
+    trailing?: boolean;
+  } = { leading: false, trailing: true },
+) => {
   if (typeof fn !== 'function') {
     throw new Error('First argument must be a function');
   }
@@ -22,5 +26,5 @@ export const debounce = (fn: any, delay: number, config: {
       }
       timer = undefined;
     }, delay);
-  }
-}
+  };
+};

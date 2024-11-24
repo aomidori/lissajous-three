@@ -11,4 +11,4 @@ export const addLightings = (scene: THREE.Scene) => {
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
   directionalLight.position.set(-5, -5, -5);
   scene.add(directionalLight);
-}
+};
