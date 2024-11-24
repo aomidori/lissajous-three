@@ -7,7 +7,16 @@
 
 	let container: HTMLDivElement;
 	let scene: SceneManager;
+
+	let { activeView } = $props();
+	let sceneCreated = $state(false);
 	let settings = $state<Settings>();
+
+	$effect(() => {
+		if (sceneCreated && activeView) {
+			scene.setView(activeView);
+		}
+	});
 
 	const onResize = debounce(() => {
 		scene?.resize();
@@ -21,6 +30,7 @@
 		if (!browser || !container) return;
 		scene = new SceneManager(container);
 		scene.render();
+		sceneCreated = true;
 		window.addEventListener('resize', onResize);
 	});
 

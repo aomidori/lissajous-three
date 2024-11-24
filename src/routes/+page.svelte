@@ -20,7 +20,7 @@
 </script>
 
 <div class="main">
-	<Canvas />
+	<Canvas {activeView} />
 	<div class="footer">
 		<Swtich options={VIEWS} bind:selected={activeView} />
 	</div>

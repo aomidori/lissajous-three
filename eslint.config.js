@@ -28,9 +28,6 @@ export default ts.config(
 		},
 
 		rules: {
-			...ts.rules,
-			...js.rules,
-			...svelte.rules,
 			'@typescript-eslint/no-unused-vars': 'off'
 		}
 	},
