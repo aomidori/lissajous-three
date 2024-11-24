@@ -68,7 +68,6 @@ export class Lissajous3D {
 
 	private geometry = new THREE.BufferGeometry();
 	private material = shaderMaterial;
-	private group = new THREE.Group();
 	private points = new THREE.Points(this.geometry, this.material);
 
 	private scale = 2;
@@ -82,8 +81,11 @@ export class Lissajous3D {
 			this.numberOfPoints * 3 + this.numberOfPoints * 3 * NOISES_PER_POINT
 		);
 		this.noisesVertices = new Float32Array(this.numberOfPoints * 3 * NOISES_PER_POINT);
-		this.group.name = 'Lissajous3D';
-		this.group.add(this.points);
+		this.points.name = 'lissajous';
+		this.points.userData = {
+			type: 'lissajous',
+			params
+		};
 
 		this.plot(params);
 		this.geometry.setAttribute('position', new THREE.BufferAttribute(this.vertices, 3));

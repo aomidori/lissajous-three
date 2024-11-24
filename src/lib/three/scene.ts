@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { writable } from 'svelte/store';
 
 import { theme } from '$lib/data/theme/theme';
 import { setGuiControlsVisibility, settings } from '$lib/data/settings';
@@ -8,6 +9,9 @@ import { addGrid } from './objects';
 import { addLightings } from './lightings';
 import { animateCameraToView, initCamera, updateCamera } from './camera';
 import { Lissajous3D, lissajousGroupItems } from './plot/lissajous';
+
+export const hoveringFigureData = writable<THREE.Object3D['userData'] | undefined>();
+export const hoveringFigurePosition = writable<THREE.Vector3 | undefined>();
 
 export class SceneManager {
 	private scene: THREE.Scene = new THREE.Scene();
@@ -19,12 +23,17 @@ export class SceneManager {
 	);
 	private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
 	private controls: OrbitControls;
+	private raycaster = new THREE.Raycaster();
 
 	private lissajousSingleRoot: THREE.Group = new THREE.Group();
 	private lissajousGroupRoot: THREE.Group = new THREE.Group();
 
 	private lissajous3D!: Lissajous3D;
 	private lissajousGroup: Lissajous3D[] = [];
+
+	// view state
+	private hoveringFigureName: string = '';
+	private activeView: 'single' | 'group' = 'single';
 
 	constructor(canvasContainer: HTMLDivElement) {
 		if (!canvasContainer) {
@@ -47,7 +56,38 @@ export class SceneManager {
 		this.scene.add(this.lissajousSingleRoot);
 		this.scene.add(this.lissajousGroupRoot);
 		this.setView('single');
+
+		window.addEventListener('pointermove', this.intersectObject);
+		this.controls.addEventListener('change', () => {
+			if (this.hoveringFigureName) {
+				const figure = this.scene.getObjectByName(this.hoveringFigureName);
+				if (figure) {
+					hoveringFigurePosition.set(figure.position);
+				}
+			}
+		});
 	}
+
+	private intersectObject = (e: PointerEvent) => {
+		if (this.activeView === 'single') {
+			return;
+		}
+		const pointerX = (e.clientX / window.innerWidth) * 2 - 1;
+		const pointerY = -(e.clientY / window.innerHeight) * 2 + 1;
+		this.raycaster.setFromCamera(new THREE.Vector2(pointerX, pointerY), this.camera);
+		const intersects = this.raycaster.intersectObjects([this.lissajousGroupRoot]);
+		if (intersects.length) {
+			if (intersects[0].object instanceof THREE.Points) {
+				this.hoveringFigureName = intersects[0].object.name;
+				hoveringFigureData.set(intersects[0].object.userData);
+				hoveringFigurePosition.set(intersects[0].object.position);
+				return;
+			}
+		}
+		this.hoveringFigureName = '';
+		hoveringFigureData.set(undefined);
+		hoveringFigurePosition.set(undefined);
+	};
 
 	public render() {
 		this.renderer.render(this.scene, this.camera);
@@ -77,12 +117,24 @@ export class SceneManager {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 
+	public projectPositionToScreen = (position: THREE.Vector3): { x: number; y: number } => {
+		const vector = position.clone().project(this.camera);
+		const canvasWidth = this.renderer.domElement.width;
+		const canvasHeight = this.renderer.domElement.height;
+		vector.x = ((vector.x + 1) * canvasWidth) / 2;
+		vector.y = ((-vector.y + 1) * canvasHeight) / 2;
+		return vector;
+	};
+
 	public setView(view: string) {
 		switch (view) {
 			case 'single':
+				this.activeView = 'single';
 				if (!this.lissajous3D) {
 					this.lissajous3D = new Lissajous3D();
-					this.lissajousSingleRoot.add(this.lissajous3D.getMesh());
+					const mesh = this.lissajous3D.getMesh();
+					mesh.name = 'lissajous-single';
+					this.lissajousSingleRoot.add(mesh);
 				}
 				this.lissajousSingleRoot.visible = true;
 				this.lissajousGroupRoot.visible = false;
@@ -90,6 +142,7 @@ export class SceneManager {
 				initCamera(this.camera);
 				break;
 			case 'group':
+				this.activeView = 'group';
 				if (!this.lissajousGroup.length) {
 					this.lissajousGroup = Array.from({ length: 8 }, () => new Lissajous3D());
 					lissajousGroupItems.forEach((params, i) => {
@@ -101,6 +154,7 @@ export class SceneManager {
 						const gap = 2;
 						mesh.scale.set(0.2, 0.2, 0.2);
 						mesh.position.set(x * gap, 0, y * gap);
+						mesh.name = `lissajous-group-${i}`;
 						this.lissajousGroupRoot.add(mesh);
 					});
 				}
@@ -116,6 +170,7 @@ export class SceneManager {
 	}
 
 	public dispose() {
+		window.removeEventListener('pointermove', this.intersectObject);
 		const renderTarget = this.renderer.getRenderTarget();
 		if (renderTarget) {
 			renderTarget.dispose();
