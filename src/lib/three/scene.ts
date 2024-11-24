@@ -7,7 +7,7 @@ import { settings } from '$lib/data/settings';
 import { addGrid } from './objects';
 import { addLightings } from './lightings';
 import { initCamera, updateCamera } from './camera';
-import { Lissajous3D } from './plot/lissajous';
+import { Lissajous3D, lissajousGroupItems } from './plot/lissajous';
 
 export class SceneManager {
 	private scene: THREE.Scene = new THREE.Scene();
@@ -20,7 +20,11 @@ export class SceneManager {
 	private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
 	private controls: OrbitControls;
 
+	private lissajousSingleRoot: THREE.Group = new THREE.Group();
+	private lissajousGroupRoot: THREE.Group = new THREE.Group();
+
 	private lissajous3D!: Lissajous3D;
+	private lissajousGroup: Lissajous3D[] = [];
 
 	constructor(canvasContainer: HTMLDivElement) {
 		if (!canvasContainer) {
@@ -40,8 +44,9 @@ export class SceneManager {
 		initCamera(this.camera);
 		addLightings(this.scene);
 		addGrid(this.scene, 8, 10, theme.three.gridColor);
-		this.lissajous3D = new Lissajous3D();
-		this.scene.add(this.lissajous3D.getMesh());
+		this.scene.add(this.lissajousSingleRoot);
+		this.scene.add(this.lissajousGroupRoot);
+		this.setView('single');
 	}
 
 	public render() {
@@ -75,12 +80,32 @@ export class SceneManager {
 	public setView(view: string) {
 		switch (view) {
 			case 'single':
-				this.camera.position.set(0, 0, 10);
-				this.camera.lookAt(0, 0, 0);
+				if (!this.lissajous3D) {
+					this.lissajous3D = new Lissajous3D();
+					this.lissajousSingleRoot.add(this.lissajous3D.getMesh());
+				}
+				this.lissajousSingleRoot.visible = true;
+				this.lissajousGroupRoot.visible = false;
+				initCamera(this.camera);
 				break;
 			case 'group':
-				this.camera.position.set(0, 10, 0);
-				this.camera.lookAt(0, 0, 0);
+				if (!this.lissajousGroup.length) {
+					this.lissajousGroup = Array.from({ length: 8 }, () => new Lissajous3D());
+					lissajousGroupItems.forEach((params, i) => {
+						const lissajous = new Lissajous3D(params, true);
+						this.lissajousGroup.push(lissajous);
+						const mesh = lissajous.getMesh();
+						const x = (i % 4) - 1.5;
+						const y = Math.floor(i / 4) - 1.5;
+						const gap = 2;
+						mesh.scale.set(0.2, 0.2, 0.2);
+						mesh.position.set(x * gap, 0, y * gap);
+						this.lissajousGroupRoot.add(mesh);
+					});
+				}
+				this.lissajousSingleRoot.visible = false;
+				this.lissajousGroupRoot.visible = true;
+				initCamera(this.camera);
 				break;
 			default:
 				console.error('Unknown view');
