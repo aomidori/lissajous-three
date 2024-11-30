@@ -74,5 +74,6 @@
     font-size: 0.75rem;
     pointer-events: none;
     transform: translate(-50%, 0);
+    user-select: none;
   }
 </style>

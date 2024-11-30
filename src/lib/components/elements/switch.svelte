@@ -42,6 +42,7 @@
     cursor: pointer;
     position: relative;
     width: fit-content;
+    user-select: none;
   }
   .switch-option {
     color: var(--highlight-color);
